@@ -292,7 +292,7 @@ func applyArabicJoining(buffer *Buffer) {
 	}
 
 	for i := 0; i < len(info); i++ {
-		thisType := getJoiningType(info[i].codepoint, info[i].unicode.generalCategory())
+		thisType := getJoiningType(info[i].Codepoint, info[i].unicode.generalCategory())
 
 		if thisType == joiningTypeT {
 			info[i].complexAux = arabNone
@@ -345,7 +345,7 @@ func mongolianVariationSelectors(buffer *Buffer) {
 	// copy complexAux from base to Mongolian variation selectors.
 	info := buffer.Info
 	for i := 1; i < len(info); i++ {
-		if cp := info[i].codepoint; 0x180B <= cp && cp <= 0x180D || cp == 0x180F {
+		if cp := info[i].Codepoint; 0x180B <= cp && cp <= 0x180D || cp == 0x180F {
 			info[i].complexAux = info[i-1].complexAux
 		}
 	}
@@ -535,7 +535,7 @@ func (cs *complexShaperArabic) postprocessGlyphs(plan *otShapePlan, buffer *Buff
 					}
 
 					if debugMode {
-						fmt.Printf("ARABIC - appending %d copies of glyph %d; j=%d\n", repeat, info[k-1].codepoint, j)
+						fmt.Printf("ARABIC - appending %d copies of glyph %d; j=%d\n", repeat, info[k-1].Codepoint, j)
 					}
 					for n := 0; n < repeat; n++ {
 						xOffset -= width
@@ -578,7 +578,7 @@ var modifierCombiningMarks = [...]rune{
 }
 
 func infoIsMcm(info *GlyphInfo) bool {
-	u := info.codepoint
+	u := info.Codepoint
 	for i := 0; i < len(modifierCombiningMarks); i++ {
 		if u == modifierCombiningMarks[i] {
 			return true

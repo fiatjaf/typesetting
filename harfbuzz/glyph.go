@@ -141,7 +141,7 @@ type GlyphInfo struct {
 	Cluster int
 
 	// input value of the shapping
-	codepoint rune
+	Codepoint rune
 
 	// Glyph is the result of the selection of concrete glyph
 	// after shaping, and refers to the font used.
@@ -195,7 +195,7 @@ func (info GlyphInfo) String() string {
 }
 
 func (info *GlyphInfo) setUnicodeProps(buffer *Buffer) {
-	u := info.codepoint
+	u := info.Codepoint
 	var flags bufferScratchFlags
 	info.unicode, flags = computeUnicodeProps(u)
 	buffer.scratchFlags |= flags

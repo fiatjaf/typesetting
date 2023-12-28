@@ -394,9 +394,9 @@ func (c *otContext) otRotateChars() {
 		rtlmMask := c.plan.rtlmMask
 
 		for i := range info {
-			codepoint := uni.mirroring(info[i].codepoint)
-			if codepoint != info[i].codepoint && c.font.hasGlyph(codepoint) {
-				info[i].codepoint = codepoint
+			codepoint := uni.mirroring(info[i].Codepoint)
+			if codepoint != info[i].Codepoint && c.font.hasGlyph(codepoint) {
+				info[i].Codepoint = codepoint
 			} else {
 				info[i].Mask |= rtlmMask
 			}
@@ -405,9 +405,9 @@ func (c *otContext) otRotateChars() {
 
 	if c.targetDirection.isVertical() && !c.plan.hasVert {
 		for i := range info {
-			codepoint := vertCharFor(info[i].codepoint)
-			if codepoint != info[i].codepoint && c.font.hasGlyph(codepoint) {
-				info[i].codepoint = codepoint
+			codepoint := vertCharFor(info[i].Codepoint)
+			if codepoint != info[i].Codepoint && c.font.hasGlyph(codepoint) {
+				info[i].Codepoint = codepoint
 			}
 		}
 	}
@@ -432,7 +432,7 @@ func (c *otContext) setupMasksFraction() {
 	count := len(buffer.Info)
 	info := buffer.Info
 	for i := 0; i < count; i++ {
-		if info[i].codepoint == 0x2044 /* FRACTION SLASH */ {
+		if info[i].Codepoint == 0x2044 /* FRACTION SLASH */ {
 			start, end := i, i+1
 			for start != 0 && info[start-1].unicode.generalCategory() == decimalNumber {
 				start--

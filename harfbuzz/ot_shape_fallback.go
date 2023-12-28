@@ -128,7 +128,7 @@ func fallbackMarkPositionRecategorizeMarks(buffer *Buffer) {
 	for i, info := range buffer.Info {
 		if info.unicode.generalCategory() == nonSpacingMark {
 			combiningClass := info.getModifiedCombiningClass()
-			combiningClass = recategorizeCombiningClass(info.codepoint, combiningClass)
+			combiningClass = recategorizeCombiningClass(info.Codepoint, combiningClass)
 			buffer.Info[i].setModifiedCombiningClass(combiningClass)
 		}
 	}

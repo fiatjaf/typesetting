@@ -209,10 +209,10 @@ func doThaiPuaShaping(buffer *Buffer, font *Font) {
 	info := buffer.Info
 	//    unsigned int count = buffer.len;
 	for i := range info {
-		mt := getMarkType(info[i].codepoint)
+		mt := getMarkType(info[i].Codepoint)
 
 		if mt == tmNOTMARK {
-			ct := getConsonantType(info[i].codepoint)
+			ct := getConsonantType(info[i].Codepoint)
 			aboveState = thaiAboveStartState[ct]
 			belowState = thaiBelowStartState[ct]
 			base = i
@@ -232,9 +232,9 @@ func doThaiPuaShaping(buffer *Buffer, font *Font) {
 
 		buffer.unsafeToBreak(base, i)
 		if action == tcRD {
-			info[base].codepoint = thaiPuaShape(info[base].codepoint, action, font)
+			info[base].Codepoint = thaiPuaShape(info[base].Codepoint, action, font)
 		} else {
-			info[i].codepoint = thaiPuaShape(info[i].codepoint, action, font)
+			info[i].Codepoint = thaiPuaShape(info[i].Codepoint, action, font)
 		}
 	}
 }
@@ -302,7 +302,7 @@ func (complexShaperThai) preprocessText(plan *otShapePlan, buffer *Buffer, font 
 	buffer.clearOutput()
 	count := len(buffer.Info)
 	for buffer.idx = 0; buffer.idx < count; {
-		u := buffer.cur(0).codepoint
+		u := buffer.cur(0).Codepoint
 		if !isSaraAm(u) {
 			buffer.nextGlyph()
 			continue
@@ -319,7 +319,7 @@ func (complexShaperThai) preprocessText(plan *otShapePlan, buffer *Buffer, font 
 
 		/* Ok, let's see... */
 		start := end - 2
-		for start > 0 && isAboveBaseMark(buffer.outInfo[start-1].codepoint) {
+		for start > 0 && isAboveBaseMark(buffer.outInfo[start-1].Codepoint) {
 			start--
 		}
 

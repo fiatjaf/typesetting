@@ -132,7 +132,7 @@ func (cs *complexShaperKhmer) setupMasks(_ *otShapePlan, buffer *Buffer, _ *Font
 }
 
 func setKhmerProperties(info *GlyphInfo) {
-	u := info.codepoint
+	u := info.Codepoint
 	type_ := indicGetCategories(u)
 	info.complexCategory = uint8(type_ & 0xFF)
 }

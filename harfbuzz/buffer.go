@@ -130,7 +130,7 @@ func (b *Buffer) AddRune(codepoint rune, cluster int) {
 }
 
 func (b *Buffer) append(codepoint rune, cluster int) {
-	b.Info = append(b.Info, GlyphInfo{codepoint: codepoint, Cluster: cluster})
+	b.Info = append(b.Info, GlyphInfo{Codepoint: codepoint, Cluster: cluster})
 	b.Pos = append(b.Pos, GlyphPosition{})
 }
 
@@ -194,7 +194,7 @@ func (b *Buffer) GuessSegmentProperties() {
 	/* If script is not set, guess from buffer contents */
 	if b.Props.Script == 0 {
 		for _, info := range b.Info {
-			script := language.LookupScript(info.codepoint)
+			script := language.LookupScript(info.Codepoint)
 			if script != language.Common && script != language.Inherited && script != language.Unknown {
 				b.Props.Script = script
 				break
@@ -311,7 +311,7 @@ func (b *Buffer) replaceGlyphs(numIn int, codepoints []rune, glyphs []GID) {
 	for i := 0; i < Lplus; i++ {
 		b.outInfo[L+i] = *origInfo
 		if replaceCodepoints {
-			b.outInfo[L+i].codepoint = codepoints[i]
+			b.outInfo[L+i].Codepoint = codepoints[i]
 		}
 		if replaceGlyphs {
 			b.outInfo[L+i].Glyph = glyphs[i]

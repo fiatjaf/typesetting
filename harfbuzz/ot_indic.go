@@ -84,7 +84,7 @@ func isHalant(info *GlyphInfo) bool {
 }
 
 func (info *GlyphInfo) setIndicProperties() {
-	u := info.codepoint
+	u := info.Codepoint
 	type_ := indicGetCategories(u)
 	info.complexCategory, info.complexAux = uint8(type_&0xFF), uint8(type_>>8)
 }

@@ -17,7 +17,7 @@ type complexShaperMyanmar struct {
 var _ otComplexShaper = complexShaperMyanmar{}
 
 func setMyanmarProperties(info *GlyphInfo) {
-	u := info.codepoint
+	u := info.Codepoint
 	type_ := indicGetCategories(u)
 	cat := uint8(type_ & 0xFF)
 	// pos := uint8(type_ >> 8)

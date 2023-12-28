@@ -141,7 +141,7 @@ func (cs *complexShaperHangul) preprocessText(_ *otShapePlan, buffer *Buffer, fo
 	count := len(buffer.Info)
 
 	for buffer.idx = 0; buffer.idx < count; {
-		u := buffer.cur(0).codepoint
+		u := buffer.cur(0).Codepoint
 
 		if 0x302E <= u && u <= 0x302F { // isHangulTone
 			/*
@@ -188,12 +188,12 @@ func (cs *complexShaperHangul) preprocessText(_ *otShapePlan, buffer *Buffer, fo
 
 		if isL(u) && buffer.idx+1 < count {
 			l := u
-			v := buffer.cur(+1).codepoint
+			v := buffer.cur(+1).Codepoint
 			if isV(v) {
 				/* Have <L,V> or <L,V,T>. */
 				var t, tindex rune
 				if buffer.idx+2 < count {
-					t = buffer.cur(+2).codepoint
+					t = buffer.cur(+2).Codepoint
 					if isT(t) {
 						tindex = t - ucd.HangulTBase /* Only used if isCombiningT (t); otherwise invalid. */
 					} else {
@@ -247,9 +247,9 @@ func (cs *complexShaperHangul) preprocessText(_ *otShapePlan, buffer *Buffer, fo
 			vindex := nindex / ucd.HangulTCount
 			tindex := nindex % ucd.HangulTCount
 
-			if tindex == 0 && buffer.idx+1 < count && isCombiningT(buffer.cur(+1).codepoint) {
+			if tindex == 0 && buffer.idx+1 < count && isCombiningT(buffer.cur(+1).Codepoint) {
 				/* <LV,T>, try to combine. */
-				newTindex := buffer.cur(+1).codepoint - ucd.HangulTBase
+				newTindex := buffer.cur(+1).Codepoint - ucd.HangulTBase
 				newS := s + newTindex
 				if font.hasGlyph(newS) {
 					buffer.replaceGlyphs(2, []rune{newS}, nil)
@@ -263,7 +263,7 @@ func (cs *complexShaperHangul) preprocessText(_ *otShapePlan, buffer *Buffer, fo
 			/* Otherwise, decompose if font doesn't support <LV> or <LVT>,
 			* or if having non-combining <LV,T>.  Note that we already handled
 			* combining <LV,T> above. */
-			if !HasGlyph || (tindex == 0 && buffer.idx+1 < count && isT(buffer.cur(+1).codepoint)) {
+			if !HasGlyph || (tindex == 0 && buffer.idx+1 < count && isT(buffer.cur(+1).Codepoint)) {
 				decomposed := [3]rune{
 					ucd.HangulLBase + lindex,
 					ucd.HangulVBase + vindex,
@@ -305,7 +305,7 @@ func (cs *complexShaperHangul) preprocessText(_ *otShapePlan, buffer *Buffer, fo
 						buffer.mergeOutClusters(start, end)
 					}
 					continue
-				} else if tindex == 0 && buffer.idx+1 < count && isT(buffer.cur(+1).codepoint) {
+				} else if tindex == 0 && buffer.idx+1 < count && isT(buffer.cur(+1).Codepoint) {
 					buffer.unsafeToBreak(buffer.idx, buffer.idx+2) /* Mark unsafe between LV and T. */
 				}
 			}

@@ -461,7 +461,7 @@ func isRegionalIndicator(r rune) bool { return 0x1F1E6 <= r && r <= 0x1F1FF }
 func (b *Buffer) setUnicodeProps() {
 	info := b.Info
 	for i := 0; i < len(info); i++ {
-		r := info[i].codepoint
+		r := info[i].Codepoint
 		info[i].setUnicodeProps(b)
 
 		/* Marks are already set as continuation by the above line.
@@ -471,12 +471,12 @@ func (b *Buffer) setUnicodeProps() {
 		} else if i != 0 && isRegionalIndicator(r) {
 			/* Regional_Indicators are hairy as hell...
 			* https://github.com/harfbuzz/harfbuzz/issues/2265 */
-			if isRegionalIndicator(info[i-1].codepoint) && !info[i-1].isContinuation() {
+			if isRegionalIndicator(info[i-1].Codepoint) && !info[i-1].isContinuation() {
 				info[i].setContinuation()
 			}
 		} else if info[i].isZwj() {
 			info[i].setContinuation()
-			if i+1 < len(b.Info) && uni.isExtendedPictographic(info[i+1].codepoint) {
+			if i+1 < len(b.Info) && uni.isExtendedPictographic(info[i+1].Codepoint) {
 				i++
 				info[i].setUnicodeProps(b)
 				info[i].setContinuation()
@@ -514,7 +514,7 @@ func (b *Buffer) insertDottedCircle(font *Font) {
 		return
 	}
 
-	dottedcircle := GlyphInfo{codepoint: 0x25CC}
+	dottedcircle := GlyphInfo{Codepoint: 0x25CC}
 	dottedcircle.setUnicodeProps(b)
 
 	b.clearOutput()
@@ -575,7 +575,7 @@ func (b *Buffer) ensureNativeDirection() {
 			} else if gc.isLetter() {
 				foundLetter = true
 				break
-			} else if isRegionalIndicator(info.codepoint) {
+			} else if isRegionalIndicator(info.Codepoint) {
 				foundRi = true
 			}
 		}
